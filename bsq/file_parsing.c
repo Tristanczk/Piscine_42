@@ -12,15 +12,17 @@
 
 #include "bsq.h"
 
+// read the input file and return the map in a char matrix (char ** table)
 char	**ft_return_file(char *pathname)
 {
 	char	**table;
 	char	*buf;
 	int		len_file;
 	int		fd;
-
+	//get the length (number of bytes) in the file
 	len_file = ft_get_len_file(pathname);
 	fd = open(pathname, O_RDONLY);
+	//if there is an issue while opening the file or if the file is not long enough (1st line doesn't have enough characters for it to be a valid map), we close the file and return map error
 	if (fd < 0 || len_file < 4)
 	{
 		write(2, "map error\n", 10);
@@ -28,13 +30,16 @@ char	**ft_return_file(char *pathname)
 			close(fd);
 		return (0);
 	}
+	// get the content of the file in a variable while checking if there are any map error
 	buf = ft_manage_file_errors(fd, len_file);
+	// if error while reading the file abort
 	if (!buf || ft_c_buffer(buf) == 0)
 	{
 		close(fd);
 		free(buf);
 		return (0);
 	}
+	//split the content of the file into a matrix line by line
 	table = ft_split(buf, "\n");
 	free(buf);
 	return (table);
