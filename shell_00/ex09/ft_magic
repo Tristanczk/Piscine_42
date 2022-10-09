@@ -1,0 +1,2 @@
+#offset in bytes / type of data / string to check / type of the file
+41 string 42 42 file
